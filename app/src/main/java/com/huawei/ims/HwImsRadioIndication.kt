@@ -34,14 +34,14 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
         when (msgId) {
             1079 -> imsCallStateChanged(indicationType)
             1122 -> imsCallHeldChange(indicationType)
-            else -> Log.w(LOG_TAG, "Unknown indication type!")
+            else -> Log.w(LOG_TAG, "Unknown message id : $msgId")
         }
     }
 
     private fun imsCallStateChanged(indicationType: Int) {
         if (indicationType > 1) { // 1 is the normal one, 0 happens sometimes, 0 seems to mean "call terminated"
             // Weird...
-            Rlog.w(LOG_TAG, "unknown indicationType $indicationType")
+            Rlog.w(LOG_TAG, "Unknown indicationType $indicationType")
         }
         try {
             RilHolder.getRadio(mSlotId)!!.getCurrentImsCalls(RilHolder.getNextSerial())
